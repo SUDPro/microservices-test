@@ -1,16 +1,27 @@
 package ru.itis.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ru.itis.dtos.OrderDto;
 import ru.itis.services.OrderService;
+import ru.itis.utils.TokenUtil;
 
-@Controller
+@RestController
 public class OrderController {
 
     private OrderService orderService;
+    private TokenUtil tokenUtil;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, TokenUtil tokenUtil) {
+        this.tokenUtil = tokenUtil;
         this.orderService = orderService;
+    }
+
+    @PostMapping("/order")
+    public ResponseEntity<String> saveOrder(@RequestBody OrderDto order, @RequestHeader("Authorization") String authorization){
+        long userId = tokenUtil.getUserIdFromJWT(authorization);
+        return orderService.saveOrderAndSendToBroker(order, userId);
     }
 }
