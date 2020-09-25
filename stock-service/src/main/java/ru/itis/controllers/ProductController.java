@@ -2,10 +2,7 @@ package ru.itis.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.itis.dtos.ProductForm;
 import ru.itis.models.Product;
 import ru.itis.services.ProductService;
@@ -23,13 +20,13 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity addProduct(ProductForm product) {
+    public ResponseEntity<String> addProduct(@RequestBody ProductForm product) {
         return service.add(product);
     }
 
     @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return service.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(service.getAllProducts());
     }
 
     @GetMapping("/product/{id}")
