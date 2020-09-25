@@ -2,7 +2,10 @@ package ru.itis.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 import ru.itis.dtos.OrderDto;
 import ru.itis.services.OrderService;
 import ru.itis.utils.TokenUtil;
@@ -20,7 +23,7 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<String> saveOrder(@RequestBody OrderDto order, @RequestHeader("Authorization") String authorization){
+    public ResponseEntity<String> saveOrder(@RequestBody OrderDto order, @RequestHeader("Authorization") String authorization) {
         long userId = tokenUtil.getUserIdFromJWT(authorization);
         return orderService.saveOrderAndSendToBroker(order, userId);
     }

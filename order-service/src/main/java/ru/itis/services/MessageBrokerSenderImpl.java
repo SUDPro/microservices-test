@@ -2,7 +2,6 @@ package ru.itis.services;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import ru.itis.config.BrokerConfiguration;
 import ru.itis.dtos.OrderProductRequestDto;
@@ -17,7 +16,6 @@ public class MessageBrokerSenderImpl implements MessageBrokerSender {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Async
     @Override
     public void sendMessage(OrderProductRequestDto order) {
         rabbitTemplate.convertAndSend(BrokerConfiguration.DIRECT_EXCHANGE_NAME,

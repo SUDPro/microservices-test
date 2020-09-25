@@ -25,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<String> add(ProductForm productForm) {
         if (!repository.findByName(productForm.getName()).isPresent()) {
-           repository.save(Product.builder()
+            repository.save(Product.builder()
                     .name(productForm.getName())
                     .description(productForm.getDescription())
                     .build());
@@ -36,7 +36,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        List<Product> products = repository.findAll();
         return repository.findAll();
     }
 
@@ -47,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public OrderProductResponseDto validate(OrderProductDto requestDto) {
-        if (repository.existsById(requestDto.getProductId())){
+        if (repository.existsById(requestDto.getProductId())) {
             return new OrderProductResponseDto(requestDto.getId(), true);
         } else {
             return new OrderProductResponseDto(requestDto.getId(), false);

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BrokerConfiguration {
 
-    public static final String DIRECT_EXCHANGE_NAME = "response-order-exchange";
+    public static final String DIRECT_EXCHANGE_NAME = "request-order-exchange";
 
     public static final String ORDER_ROUTING_KEY = "ord";
 
@@ -34,12 +34,12 @@ public class BrokerConfiguration {
     }
 
     @Bean
-    Queue restaurantReplyQueue() {
+    Queue orderReplyQueue() {
         return new Queue(REPLY_ORDER_QUEUE_NAME, false);
     }
 
     @Bean
-    Queue restaurantQueue() {
+    Queue orderQueue() {
         return new Queue(ORDER_QUEUE_NAME, false);
     }
 
@@ -49,7 +49,7 @@ public class BrokerConfiguration {
     }
 
     @Bean
-    Binding bindingRestaurant(Queue restaurantReplyQueue, DirectExchange exchange) {
-        return BindingBuilder.bind(restaurantReplyQueue).to(exchange).with(ORDER_ROUTING_KEY);
+    Binding bindingOrder(Queue orderQueue, DirectExchange exchange) {
+        return BindingBuilder.bind(orderQueue).to(exchange).with(ORDER_ROUTING_KEY);
     }
 }
